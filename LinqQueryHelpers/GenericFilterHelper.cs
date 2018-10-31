@@ -105,19 +105,14 @@ namespace LinqQueryHelpers
 
 					var childObjectProperty = childObjectType.GetProperties();
 
-					foreach (var propertyInfo in childObjectProperty)
-					{
-						if (propertyInfo.Name.ToLower().Equals(teste[1].ToLower()))
-						{
-							propertyType = propertyInfo.PropertyType.Name;
-						}
-					}
+					foreach (var propertyInfo in childObjectProperty)					
+						if (propertyInfo.Name.ToLower().Equals(teste[1].ToLower()))						
+							propertyType = propertyInfo.PropertyType.Name;					
 				}
 			}
-			else
-			{
+			else			
 				propertyType = property.PropertyType.Name;
-			}
+			
 
 			return propertyType;
 		}

@@ -8,24 +8,17 @@ namespace LinqQueryHelpers
 {
 	public class GenericSortHelper<TEntity> where TEntity : class
 	{
-		public static IQueryable<TEntity> GenericSort(IQueryable<TEntity> query, IDictionary<ESortDirection, string> sort)
+		public static IQueryable<TEntity> GenericSort(IQueryable<TEntity> query, IDictionary<string, ESortDirection> sort)
 		{
 			if (sort != null && sort.Any())
 			{
 				var queryBuilder = new StringBuilder();
 
-				foreach (var sortItem in sort)
-				{
-					if (!string.IsNullOrEmpty(sortItem.Value))
-					{
-						queryBuilder.Append(string.Format(" {0} {1} ", sortItem.Value, sortItem.Key.ToString().ToUpper()));
-					}
-				}
+				foreach (var sortItem in sort)				
+					if (!string.IsNullOrEmpty(sortItem.Key))					
+						queryBuilder.Append(string.Format(" {0} {1} ", sortItem.Key, sortItem.Value.ToString().ToUpper()));
 
-				if (queryBuilder.Length > 0)
-					query = query.OrderBy(queryBuilder.ToString());
-				else
-					query = query.OrderBy(" Id ASC ");
+				query = queryBuilder.Length > 0 ? query.OrderBy(queryBuilder.ToString()) : query = query.OrderBy(" Id ASC ");
 			}
 
 			return query;
